@@ -10,26 +10,33 @@ int main(int argc, char **argv)
 
     do
     {
+        // prompt is characters like > or $ which appear before commands. prompt1 is $
         print_prompt1();
+
+        // read a command. see function after main
         cmd = read_cmd();
 
+        // exit if no command
         if(!cmd)
         {
             exit(EXIT_SUCCESS);
         }
 
+        // null character or enter key pressed without any command
         if(cmd[0] == '\0' || strcmp(cmd, "\n") == 0)
         {
             free(cmd);
             continue;
         }
 
+        // exit if "exit" typed
         if(strcmp(cmd, "exit\n") == 0)
         {
             free(cmd);
             break;
         }
 
+        // print all other commands entered
         printf("%s\n", cmd);
 
         free(cmd);
@@ -44,6 +51,8 @@ char *read_cmd(void)
     char buf[1024];
     char *ptr = NULL;
     char ptrlen = 0;
+
+    // commands taken inside 1024 byte buffers. can manually trigger to create another buffer by "\n" after every command
 
     while(fgets(buf, 1024, stdin))
     {
