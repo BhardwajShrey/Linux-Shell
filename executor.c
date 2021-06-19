@@ -141,22 +141,38 @@ int do_simple_command(struct node_s *node)
         str = child->val.str;
         argv[argc] = malloc(strlen(str)+1);
         
-	if(!argv[argc])
+	    if(!argv[argc])
         {
             free_argv(argc, argv);
             return 0;
         }
         
-	strcpy(argv[argc], str);
+	    strcpy(argv[argc], str);
+
         if(++argc >= max_args)
         {
             break;
         }
         child = child->next_sibling;
     }
+
     argv[argc] = NULL;
 
+    int i = 0;
+
+    // check if command about to be executed is a built-in utility or not
+    for( ; i < builtins_count; i++)
+    {
+        if(strcmp(argv[0], builtins[i].name) == 0)
+        {
+            builtins[i].func(argc, argv);
+            free_argv(argc, argv);
+            return 1;
+        }
+    }
+
     pid_t child_pid = 0;
+
     if((child_pid = fork()) == 0)
     {
         do_exec_cmd(argc, argv);

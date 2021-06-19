@@ -11,6 +11,8 @@ int main(int argc, char **argv)
 {
     char *cmd;
 
+    initsh();
+    
     do
     {
         // prompt is characters like > or $ which appear before commands. prompt1 is $
