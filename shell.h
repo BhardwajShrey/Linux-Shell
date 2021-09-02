@@ -27,4 +27,14 @@ extern struct builtin_s builtins[];
 // count of utilities
 extern int builtins_count;
 
+struct word_s
+{
+    char  *data;    // string representing the word
+    int    len;     // length of data
+    struct word_s *next;    // pointer to next word. NULL if last word. Linked list
+};
+
+struct word_s *make_word(char *str);
+void free_all_words(struct word_s *first);  // frees memory used by word structure
+
 #endif
